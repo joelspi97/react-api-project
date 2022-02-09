@@ -1,1 +1,1 @@
-# React project featuring and API call
+# React project featuring an API call
