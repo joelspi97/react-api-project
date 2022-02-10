@@ -6,34 +6,6 @@ function App(): ReactElement {
 
   const [kitty, setKitty] = useState<any[]>();
 
-  // Fetch clásico
-
-  // function getKitty() {
-  //   fetch(URL)
-  //   .then((response: any) => {
-  //     return response.json();
-  //   })
-  //   .then((data: any) => {
-  //     setKitty(data.kitties);
-  //   })
-  // };
-  
-  
-  // Fetch con AXIOS (promesas)
-
-  // function getKitty() {
-  //   axios.get(URL)
-  //     .then((response: any) => {
-  //       setKitty(response.data.kitties);
-  //     })
-  //     .catch((err) => { 
-  //       console.error(err);
-  //     });
-  // };
-  
-
-  // Fecth con AXIOS (async-await)
-
   async function getKitty() {
     try {
       const response = await axios.get(URL);
