@@ -1,41 +1,64 @@
-import React, { ReactElement, useLayoutEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App(): ReactElement {
-  const URL: string = 'https://jsonplaceholder.typicode.com/todos';
+  const URL: string = 'https://api.cryptokitties.co/kitties/';
 
-  const [todos, setTodos] = useState<any>();
+  const [kitty, setKitty] = useState<any[]>();
 
-  async function fectchApi() {
-    const response: Response = await fetch(URL);
-    const responseJSON: JSON = await response.json();
-    setTodos(responseJSON);
+  // Fetch clásico
+
+  // function getKitty() {
+  //   fetch(URL)
+  //   .then((response: any) => {
+  //     return response.json();
+  //   })
+  //   .then((data: any) => {
+  //     setKitty(data.kitties);
+  //   })
+  // };
+  
+  
+  // Fetch con AXIOS (promesas)
+
+  // function getKitty() {
+  //   axios.get(URL)
+  //     .then((response: any) => {
+  //       setKitty(response.data.kitties);
+  //     })
+  //     .catch((err) => { 
+  //       console.error(err);
+  //     });
+  // };
+  
+
+  // Fecth con AXIOS (async-await)
+
+  async function getKitty() {
+    try {
+      const response = await axios.get(URL);
+      setKitty(response.data.kitties);
+    } catch(err) {
+      console.error(err);
+    }
   };
-  useLayoutEffect(() => {
-    fectchApi();
-  }, []);
 
   return (
     <div className="App">
-      Hola Mundo
-      <ul>
-        { 
-          !todos ? 'Cargando...' :
-            todos.map((todo: any, index: number): ReactElement => {
-              return (
-                <li key={index}>
-                  <h2>{todo.title}</h2>
-                  <p>es el todo numero { index + 1 }</p>
-                  <p>
-                    { 
-                      todo.completed ? "El todo fue completado" :
-                                        "El todo no fue completado" 
-                    }
-                  </p>
-                </li>
-              );
-            })
-        }
-      </ul>
+      <button
+        onClick={getKitty}
+      >Get Kitty</button>
+
+      {
+        !kitty ? 'No kitten' :
+        kitty.map((kitty: any) => {
+          return (
+            <p key={kitty.id}>
+              { kitty.name }
+            </p>
+          )
+        })
+      }
     </div>
   );
 }
